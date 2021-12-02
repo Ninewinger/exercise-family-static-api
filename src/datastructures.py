@@ -95,4 +95,10 @@ class FamilyStructure:
 
     # this method is done, it returns a list with all the family members
     def get_all_members(self):
-        return self._members
+        try:
+            if type(self._members) is list:
+                return self._members, 200
+            else:
+                return "Bad request", 400
+        except:
+            return "Internal error", 500

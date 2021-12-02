@@ -42,8 +42,31 @@ class FamilyStructure:
         return randint(0, 99999999)
 
     def add_member(self, member):
-        # fill this method and update the return
-        pass
+        member["id"] = member.get("id", None)
+        if member["first_name"] is None or member["age"] is None or member["lucky_numbers"] is None:
+            return "You must include 'first_name', 'age' and 'lucky_numbers'", 400
+
+        elif type(member["lucky_numbers"]) is not list:
+            return "'lucky_numbers' must be a list of numbers", 400
+
+        elif member["id"] is not None and self.get_member(member["id"])[1] == 200:
+            return f"member with id {member['id']} already exists", 400
+
+        else:
+            try:
+                formattedMember = {
+                    "id": member["id"] or self._generateId(),
+                    "first_name": member["first_name"],
+                    "last_name": self.last_name,
+                    "age": member["age"],
+                    "lucky_numbers": member["lucky_numbers"]
+                }
+                self._members.append(formattedMember)
+                # fill this method and update the return
+                return formattedMember, 200
+
+            except:
+                return "Internal error", 500
 
     def delete_member(self, id):
         # fill this method and update the return
